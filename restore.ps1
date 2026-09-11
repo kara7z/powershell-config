@@ -1,4 +1,4 @@
-# Restore PowerShell + Neovim + Starship configs from this repo
+# Restore PowerShell + Neovim + Starship + Windows Terminal configs from this repo
 # Run: .\restore.ps1
 $ErrorActionPreference = 'Stop'
 $RepoRoot = $PSScriptRoot
@@ -23,5 +23,16 @@ Get-ChildItem -LiteralPath (Join-Path $RepoRoot 'nvim') -Force | ForEach-Object 
   Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $NvimDest $_.Name) -Recurse -Force
 }
 Write-Host "Restored nvim -> $NvimDest"
+
+# 4. Windows Terminal
+$WtDest = Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
+$WtSrc = Join-Path $RepoRoot 'windows-terminal\settings.json'
+if (Test-Path -LiteralPath $WtSrc) {
+  New-Item -ItemType Directory -Path (Split-Path $WtDest) -Force | Out-Null
+  Copy-Item -LiteralPath $WtSrc -Destination $WtDest -Force
+  Write-Host "Restored Windows Terminal -> $WtDest"
+} else {
+  Write-Host "Skipped Windows Terminal (no windows-terminal/settings.json in repo)"
+}
 
 Write-Host "Done. Restart PowerShell / Neovim."

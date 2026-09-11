@@ -1,6 +1,6 @@
 # powershell-config
 
-Backup of my Windows dev setup: PowerShell 7 + Neovim (LazyVim-based) + Starship.
+Backup of my Windows dev setup: PowerShell 7 + Neovim (LazyVim-based) + Starship + Windows Terminal.
 
 Repo: https://github.com/kara7z/powershell-config.git
 Local clone: `~/Documents/powershell-config`
@@ -18,6 +18,8 @@ powershell-config/
     lua/plugins/
     lazy-lock.json / lazyvim.json / ...
   starship.toml                       -> ~/.config/starship.toml
+  windows-terminal/
+    settings.json                     -> %LOCALAPPDATA%/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
   restore.ps1                         -> one-click restore script
 ```
 
@@ -38,6 +40,7 @@ Or manually:
 Copy-Item .\PowerShell\* ~/Documents/PowerShell/ -Force
 Copy-Item .\starship.toml ~/.config/starship.toml -Force
 Copy-Item .\nvim\* $env:LOCALAPPDATA\nvim\ -Recurse -Force
+Copy-Item .\windows-terminal\settings.json "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -Force
 ```
 
 ## Update backup
@@ -46,6 +49,7 @@ Copy-Item .\nvim\* $env:LOCALAPPDATA\nvim\ -Recurse -Force
 Copy-Item ~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1 .\PowerShell\ -Force
 Copy-Item ~/Documents/PowerShell/powershell.config.json .\PowerShell\ -Force
 Copy-Item ~/.config/starship.toml .\starship.toml -Force
+Copy-Item "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" .\windows-terminal\settings.json -Force
 Get-ChildItem $env:LOCALAPPDATA\nvim | Where-Object { $_.Name -ne '.git' } | ForEach-Object {
   Copy-Item $_.FullName .\nvim\$($_.Name) -Recurse -Force
 }
