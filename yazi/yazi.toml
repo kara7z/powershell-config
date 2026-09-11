@@ -1,0 +1,15 @@
+# Perf tuning for Windows (sixel preview + slow stat on big/cloud folders).
+# Stock config otherwise. Restart yazi after editing.
+[mgr]
+sort_by        = "alphabetical"
+sort_sensitive = false
+sort_dir_first = true
+show_hidden    = false
+
+[preview]
+wrap          = "no"
+tab_size      = 2
+max_width     = 800
+max_height    = 600
+image_delay   = 100
+image_quality = 55

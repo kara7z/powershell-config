@@ -1,4 +1,4 @@
-# Restore PowerShell + Neovim + Starship + Windows Terminal configs from this repo
+# Restore PowerShell + Neovim + Starship + Windows Terminal + Yazi configs from this repo
 # Run: .\restore.ps1
 $ErrorActionPreference = 'Stop'
 $RepoRoot = $PSScriptRoot
@@ -33,6 +33,17 @@ if (Test-Path -LiteralPath $WtSrc) {
   Write-Host "Restored Windows Terminal -> $WtDest"
 } else {
   Write-Host "Skipped Windows Terminal (no windows-terminal/settings.json in repo)"
+}
+
+# 5. Yazi
+$YaziDest = Join-Path $env:APPDATA 'yazi\config\yazi.toml'
+$YaziSrc = Join-Path $RepoRoot 'yazi\yazi.toml'
+if (Test-Path -LiteralPath $YaziSrc) {
+  New-Item -ItemType Directory -Path (Split-Path $YaziDest) -Force | Out-Null
+  Copy-Item -LiteralPath $YaziSrc -Destination $YaziDest -Force
+  Write-Host "Restored Yazi -> $YaziDest"
+} else {
+  Write-Host "Skipped Yazi (no yazi/yazi.toml in repo)"
 }
 
 Write-Host "Done. Restart PowerShell / Neovim."
