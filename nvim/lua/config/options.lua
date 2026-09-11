@@ -5,9 +5,9 @@
 -- PHP LSP: use intelephense for stricter diagnostics (undefined vars/constants) instead of phpactor default
 vim.g.lazyvim_php_lsp = "intelephense"
 
--- CachyOS/Sway + Wayland: system clipboard via wl-copy/wl-paste
+-- System clipboard for copy/paste between Neovim and other programs
 vim.opt.clipboard = "unnamedplus"
--- Explicit wl-clipboard provider for Wayland (fallback if LazyVim doesn't detect)
+-- Explicit wl-clipboard provider for Linux/Wayland (no-op on Windows: only runs if wl-copy exists)
 if vim.fn.executable("wl-copy") == 1 and vim.fn.executable("wl-paste") == 1 then
   vim.g.clipboard = {
     name = "wl-clipboard",
@@ -37,7 +37,7 @@ vim.opt.undofile = true
 vim.opt.conceallevel = 0
 vim.opt.spelllang = { "en" }
 
--- Undo/redo history for 200+ steps (default 10000, keep high for 200 redo via 200Ctrl-Shift-z)
+-- Deep undo history (10000 steps)
 vim.opt.undolevels = 10000
 vim.opt.undoreload = 10000
 -- Disable unused providers to silence checkhealth warnings (perl optional, python/ruby installed)
@@ -132,7 +132,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Sway/kitty: faster escape, true colors already via LazyVim
+-- Faster key-sequence response (true colors already via LazyVim)
 vim.opt.timeoutlen = 300
 vim.opt.ttimeoutlen = 10
 

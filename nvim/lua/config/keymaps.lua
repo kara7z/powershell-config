@@ -90,7 +90,7 @@ vim.keymap.set(
   { desc = "Move selection up", silent = true }
 )
 
--- Ctrl-z Undo / Ctrl-y Redo (just Ctrl-y, like b7b49ca)
+-- Ctrl-z Undo / Ctrl-y Redo
 vim.keymap.set({ "n", "v" }, "<C-z>", "u", { desc = "Undo", silent = true })
 vim.keymap.set("i", "<C-z>", "<C-o>u", { desc = "Undo", silent = true })
 vim.keymap.set({ "n", "v" }, "<C-y>", "<C-r>", { desc = "Redo", silent = true })

@@ -3,13 +3,14 @@ return {
   opts = {
     linters = {
       selene = {
-        -- fix: nvim-lint runs selene via stdin (cwd = project), so it wouldn't find selene.toml in ~/.config/nvim
+        -- fix: nvim-lint runs selene via stdin (cwd = project), so it wouldn't find selene.toml next to the config
         -- pass explicit config so vim/LazyVim globals are recognized for nvim config files
+        -- NOTE: stdpath is required here - on Windows the config is %LOCALAPPDATA%/nvim, NOT ~/.config/nvim
         args = {
           "--display-style",
           "json",
           "--config",
-          vim.fn.expand("~/.config/nvim/selene.toml"),
+          vim.fn.stdpath("config") .. "/selene.toml",
           "-",
         },
       },
