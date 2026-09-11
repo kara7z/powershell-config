@@ -1,60 +1,69 @@
-# powershell-config
+# My Windows Setup
 
-Backup of my Windows dev setup: PowerShell 7 + Neovim (LazyVim-based) + Starship + Windows Terminal + Yazi + Winget bundle.
+This repo saves my terminal setup. If my PC breaks or I get a new PC,
+I can get everything back with **2 commands**.
 
-Repo: https://github.com/kara7z/powershell-config.git
-Local clone: `~/Documents/powershell-config`
+## What is inside?
 
-## Contents
+| Folder | What it is (simple words) |
+|---|---|
+| `PowerShell/` | My PowerShell look and shortcuts (prompt, aliases, history search) |
+| `nvim/` | My code editor settings (Neovim + LazyVim + my plugins) |
+| `starship.toml` | The design of my prompt (the line where you type commands) |
+| `windows-terminal/` | My Terminal window settings (font, colors, keys like Ctrl+C) |
+| `yazi/` | My file manager settings (yazi, opened with the `yy` command) |
+| `winget/` | The list of programs to install automatically |
 
-```
-powershell-config/
-  PowerShell/
-    Microsoft.PowerShell_profile.ps1  -> ~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1
-    powershell.config.json            -> ~/Documents/PowerShell/powershell.config.json
-  nvim/                               -> %LOCALAPPDATA%/nvim/ (full init.lua + lua/config + lua/plugins)
-    init.lua
-    lua/config/
-    lua/plugins/
-    lazy-lock.json / lazyvim.json / ...
-  starship.toml                       -> ~/.config/starship.toml
-  windows-terminal/
-    settings.json                     -> %LOCALAPPDATA%/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
-  yazi/
-    yazi.toml                         -> %APPDATA%/yazi/config/yazi.toml
-  winget/
-    winget-export.json                -> curated dev-tools list (PowerShell, Terminal, Git, Neovim, starship, zoxide, fzf, yazi, lazygit, oh-my-posh)
-    setup.ps1                         -> fresh-machine installer (winget import)
-  restore.ps1                         -> one-click restore script
-```
+Extra scripts:
 
-Notes:
-- `Microsoft.PowerShell_profile.ps1.bak` is intentionally NOT backed up (stale backup file).
-- `nvim/.git/` is intentionally NOT backed up (was LazyVim starter git history).
-- Also uses: starship, zoxide, fzf, yazi, PSReadLine (configured in profile, binaries not stored here).
+| File | What it does |
+|---|---|
+| `install.ps1` | **Does everything at once** (install programs + font + settings). Use this one. |
+| `restore.ps1` | Copies only the settings (use it if programs are already installed). |
+| `winget/setup.ps1` | Installs only the programs. |
 
-## Restore (fresh machine)
+## New PC? Do this (2 steps)
+
+**Step 1.** Download this repo:
 
 ```powershell
 git clone https://github.com/kara7z/powershell-config.git ~/Documents/powershell-config
+```
+
+**Step 2.** Install everything:
+
+```powershell
+~/Documents/powershell-config/install.ps1
+```
+
+That is all. It installs the programs, the font, and all settings.
+
+> If Windows blocks the script, run this first, then step 2 again:
+>
+> ```powershell
+> Set-ExecutionPolicy Bypass -Scope Process -Force
+> ```
+
+## After the install
+
+1. **Close the terminal and open it again.** Settings load only in a new window.
+2. You should see a short prompt with the folder name, and icons should look normal.
+3. Try these commands: `z` (smart folder jump), `yy` (file manager), `ff` (find a file).
+
+## Problem: I see boxes □ instead of icons
+
+The font is missing. Install it with this one command, then open a new terminal:
+
+```powershell
+oh-my-posh font install FiraCode
+```
+
+## Save my new changes (update the backup)
+
+When you change a setting on your PC, copy it here and push:
+
+```powershell
 cd ~/Documents/powershell-config
-Set-ExecutionPolicy Bypass -Scope Process -Force
-.\winget\setup.ps1   # installs tools via winget import
-.\restore.ps1        # restores configs
-```
-
-Or manually:
-```powershell
-Copy-Item .\PowerShell\* ~/Documents/PowerShell/ -Force
-Copy-Item .\starship.toml ~/.config/starship.toml -Force
-Copy-Item .\nvim\* $env:LOCALAPPDATA\nvim\ -Recurse -Force
-Copy-Item .\windows-terminal\settings.json "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -Force
-Copy-Item .\yazi\yazi.toml "$env:APPDATA\yazi\config\yazi.toml" -Force
-```
-
-## Update backup
-
-```powershell
 Copy-Item ~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1 .\PowerShell\ -Force
 Copy-Item ~/Documents/PowerShell/powershell.config.json .\PowerShell\ -Force
 Copy-Item ~/.config/starship.toml .\starship.toml -Force
@@ -66,4 +75,8 @@ Get-ChildItem $env:LOCALAPPDATA\nvim | Where-Object { $_.Name -ne '.git' } | For
 git add -A; git commit -m "update backup"; git push
 ```
 
-Last backup: 2026-09-11 (PowerShell 7.6.6, LazyVim + custom plugins: autosave, compiler, java-fix, stack, theme, etc.)
+## Notes
+
+- The file `Microsoft.PowerShell_profile.ps1.bak` is an old copy, so it is not saved here.
+- The folder `nvim/.git` is not saved here (it is just LazyVim update history).
+- Programs installed: PowerShell 7, Windows Terminal, Git, Neovim, starship, zoxide, fzf, yazi, lazygit, oh-my-posh.
